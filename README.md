@@ -1,5 +1,16 @@
-# 3D Efficient Frontier Portfolio Visualization (NVDA; VUAA; ARU; SGLN)
-We create a 3D Efficient Frontier Visualization for a portfolio consisting of Nvidia (NVDA) stock, S&amp;P 500 Vanguard ETF (VUAA), Arafura Rare Earths Ltd (ARU) stock and iShares Physical Gold ETF (SGLN).
+# Efficient Frontier and Efficient Surface: A Deep Dive into 4-Asset Portfolio Optimization
+
+## 1. The Assets: Choices and Rationale
+
+Our portfolio explores four complementary assets:
+
+- **Nvidia (NVDA):** A leading semiconductor and AI company with high historical returns and volatility. Represents growth and tech innovation.
+- **S&P 500 Vanguard ETF (VOO/VUAA):** Broad market exposure, offering stability and diversification within US large caps.
+- **Arafura Rare Earths Ltd (ARU):** An Australian rare earths miner, highly volatile and growth-oriented, provides exposure to critical minerals and the green transition.
+- **iShares Physical Gold ETF (SGLN):** Gold is a classic defensive asset, acting as a hedge during market stress, with low correlation to equities.
+
+**Interest in this combination:**  
+By mixing tech (NVDA), broad market (VOO), critical minerals (ARU), and gold (SGLN), we aim to balance return potential, diversification, and risk. Each asset plays a unique role in the portfolio’s risk-return landscape.
 
 ---
 $$
