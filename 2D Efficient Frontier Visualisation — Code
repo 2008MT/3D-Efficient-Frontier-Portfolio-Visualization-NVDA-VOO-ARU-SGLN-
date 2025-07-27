@@ -1,0 +1,116 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import yfinance as yf
+from datetime import datetime, timedelta
+import warnings
+
+warnings.filterwarnings('ignore')
+
+def fetch_data(tickers, start_date=None, end_date=None):
+    start_date = start_date or (datetime.now() - timedelta(days=10*365)).strftime('%Y-%m-%d')
+    end_date = end_date or datetime.now().strftime('%Y-%m-%d')
+    ticker_variants = {
+        'NVDA': ['NVDA'],
+        'VOO': ['VOO', 'VUAA.L', 'VUAA'],
+        'ARU': ['ARU.AX', 'ARU'],
+        'SGLN': ['SGLN.L', 'IAU', 'GLD']
+    }
+    final_tickers = []
+    for original_ticker in tickers:
+        success = False
+        for variant in ticker_variants.get(original_ticker, [original_ticker]):
+            try:
+                test_data = yf.download(variant, start=start_date, end=end_date, progress=False)
+                if not test_data.empty and len(test_data) > 100:
+                    final_tickers.append(variant)
+                    print(f"  ✓ {original_ticker} -> {variant}: {len(test_data)} days")
+                    success = True
+                    break
+            except Exception:
+                continue
+        if not success:
+            raise ValueError(f"Could not fetch data for ticker {original_ticker}.")
+    data = yf.download(final_tickers, start=start_date, end=end_date, progress=False)
+    if len(final_tickers) == 1:
+        df = pd.DataFrame(data['Close'])
+        df.columns = final_tickers
+    else:
+        df = data['Close']
+    column_mapping = dict(zip(final_tickers, tickers))
+    df = df.rename(columns=column_mapping)
+    df = df[tickers]
+    df = df.dropna()
+    print(f"Data fetched: {len(df)} trading days")
+    returns = df.pct_change().dropna()
+    mean_returns = returns.mean() * 252
+    cov_matrix = returns.cov() * 252
+    print("\nAsset Statistics (Annualized):")
+    print("-" * 40)
+    for ticker in tickers:
+        ret = mean_returns[ticker]
+        vol = np.sqrt(cov_matrix.loc[ticker, ticker])
+        print(f"{ticker:>6}: Return {ret:>7.1%}, Volatility {vol:>6.1%}")
+    return mean_returns.values, cov_matrix.values, tickers
+
+def generate_grid_portfolios(mean_returns, cov_matrix, n_points=100):
+    n_assets = len(mean_returns)
+    weight_range = np.linspace(0, 1, n_points)
+    nvda_w, voo_w, aru_w = np.meshgrid(weight_range, weight_range, weight_range)
+    nvda_w = nvda_w.flatten()
+    voo_w = voo_w.flatten()
+    aru_w = aru_w.flatten()
+    sgln_w = 1 - nvda_w - voo_w - aru_w
+    valid = (sgln_w >= 0) & (sgln_w <= 1)
+    nvda_w = nvda_w[valid]
+    voo_w = voo_w[valid]
+    aru_w = aru_w[valid]
+    sgln_w = sgln_w[valid]
+    weights = np.vstack([nvda_w, voo_w, aru_w, sgln_w]).T
+    returns = weights @ mean_returns
+    stds = np.sqrt(np.einsum('ij,jk,ik->i', weights, cov_matrix, weights))
+    return weights, returns, stds
+
+def calculate_efficient_frontier_from_grid(returns, stds, n_frontier=100):
+    # For each return level, find min std portfolio
+    levels = np.linspace(returns.min(), returns.max(), n_frontier)
+    eff_std = []
+    eff_ret = []
+    for r in levels:
+        mask = np.abs(returns - r) < 1e-3
+        if np.any(mask):
+            eff_std.append(stds[mask].min())
+            eff_ret.append(r)
+    return np.array(eff_ret), np.array(eff_std)
+
+def plot_efficient_frontier_grid(returns, stds, eff_ret, eff_std):
+    fig, ax = plt.subplots(figsize=(9,7))
+    ax.scatter(stds*100, returns*100, color='dodgerblue', alpha=0.25, s=10, label='Grid portfolios')
+    ax.plot(eff_std*100, eff_ret*100, color='black', lw=2, label='MV efficient frontier')
+    ax.set_xlabel('Standard Deviation of Portfolio Returns (%)', fontsize=13)
+    ax.set_ylabel('Mean of Portfolio Returns (%)', fontsize=13)
+    ax.set_title('Efficient Frontier from Grid Portfolios', fontsize=16)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+    return fig, ax
+
+def main():
+    tickers = ['NVDA', 'VOO', 'ARU', 'SGLN']
+    print("="*70)
+    print("2D EFFICIENT FRONTIER (GRID PORTFOLIOS)")
+    print("Modern Portfolio Theory Visualization")
+    print("="*70)
+    mean_returns, cov_matrix, tickers = fetch_data(tickers)
+    weights, returns, stds = generate_grid_portfolios(mean_returns, cov_matrix, n_points=100)
+    print(f"\nGenerated {len(returns)} grid portfolios.")
+    eff_ret, eff_std = calculate_efficient_frontier_from_grid(returns, stds, n_frontier=100)
+    print("\nCreating 2D efficient frontier plot from grid portfolios...")
+    plot_efficient_frontier_grid(returns, stds, eff_ret, eff_std)
+    print("\n" + "="*70)
+    print("ANALYSIS COMPLETE")
+    print("="*70)
+
+if __name__ == "__main__":
+    main()
