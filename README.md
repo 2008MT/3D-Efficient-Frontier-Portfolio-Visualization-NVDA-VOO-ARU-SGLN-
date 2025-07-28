@@ -1,195 +1,101 @@
-# Efficient Frontier and Efficient Surface: A Deep Dive into 4-Asset Portfolio Optimization
+# Portfolio Optimization and the Efficient Frontier: Theory, Assets, and Interpretation
 
-## 1. The Assets: Choices and Rationale
+## Choice of Assets
 
-Our portfolio explores four complementary assets:
+Our portfolio consists of four strategically selected assets:
 
-- **Nvidia (NVDA):** A leading semiconductor and AI company with high historical returns and volatility. Represents growth and tech innovation.
-- **S&P 500 Vanguard ETF (VOO/VUAA):** Broad market exposure, offering stability and diversification within US large caps.
-- **Arafura Rare Earths Ltd (ARU):** An Australian rare earths miner, highly volatile and growth-oriented, provides exposure to critical minerals and the green transition.
-- **iShares Physical Gold ETF (SGLN):** Gold is a classic defensive asset, acting as a hedge during market stress, with low correlation to equities.
+- **Nvidia (NVDA):** A leading technology company in AI and semiconductors, offering high growth potential and significant volatility. NVDA is chosen for its representation of innovation and tech sector exposure.
+- **S&P 500 Vanguard ETF (VOO/VUAA):** This ETF tracks the S&P 500 index, providing broad exposure to the US equity market with relatively lower volatility. It supplies stability and diversification.
+- **Arafura Rare Earths Ltd (ARU):** An Australian mining company focused on rare earths, ARU adds sector-specific risk and the potential for outsized returns due to its exposure to critical minerals needed for renewable energy and tech.
+- **iShares Physical Gold ETF (SGLN):** Gold is a classic defensive asset. SGLN brings stability and acts as a hedge against market downturns, with typically low correlation to equities.
 
-**Interest in this combination:**  
-By mixing tech (NVDA), broad market (VOO), critical minerals (ARU), and gold (SGLN), we aim to balance return potential, diversification, and risk. Each asset plays a unique role in the portfolio’s risk-return landscape.
-
----
-
-## 2. Methodology: Data, Theory, and Modeling
-
-### Data Collection
-
-We fetch daily closing prices for each ticker over ~10 years using [Yahoo Finance](https://finance.yahoo.com/). We use alternative tickers for international listings to ensure data coverage.
-
-```{r}
-try:
-    import yfinance as yf
-except ImportError:
-    raise ImportError("yfinance is required to fetch real-world data. Please install it using: pip install yfinance")
-
-warnings.filterwarnings('ignore')
-
-class EfficientSurface3D:
-    def __init__(self, tickers, start_date=None, end_date=None):
-        """
-        Initialize the 3D Efficient Surface visualization
-        
-        Parameters:
-        tickers (list): List of ticker symbols
-        start_date (str): Start date for data retrieval (YYYY-MM-DD)
-        end_date (str): End date for data retrieval (YYYY-MM-DD)
-        """
-        self.tickers = tickers
-        self.start_date = start_date or (datetime.now() - timedelta(days=10*365)).strftime('%Y-%m-%d')
-        self.end_date = end_date or datetime.now().strftime('%Y-%m-%d')
-        self.data = None
-        self.returns = None
-        self.mean_returns = None
-        self.cov_matrix = None
-        
-    def fetch_data_yfinance(self):
-        """Fetch data using yfinance (with error handling)"""
-        print("Attempting to fetch data from Yahoo Finance...")
-        
-        # Try different ticker formats for international stocks
-        ticker_variants = {
-            'NVDA': ['NVDA'],
-            'VOO': ['VOO', 'VUAA.L', 'VUAA'],  # Try VOO first, then alternatives
-            'ARU': ['ARU.AX', 'ARU'],
-            'SGLN': ['SGLN.L', 'IAU', 'GLD']  # Try London listing, then alternatives
-        }
-        
-        final_tickers = []
-        for original_ticker in self.tickers:
-            success = False
-            for variant in ticker_variants.get(original_ticker, [original_ticker]):
-                try:
-                    test_data = yf.download(variant, start=self.start_date, end=self.end_date, progress=False)
-                    if not test_data.empty and len(test_data) > 100:  # Ensure we have sufficient data
-                        final_tickers.append(variant)
-                        print(f"  ✓ {original_ticker} -> {variant}: {len(test_data)} days")
-                        success = True
-                        break
-                except Exception:
-                    continue
-            
-            if not success:
-                raise ValueError(f"Could not fetch data for ticker {original_ticker}. Please check the ticker symbol or availability.")
-        
-        # Download all data at once
-        data = yf.download(final_tickers, start=self.start_date, end=self.end_date, progress=False)
-        
-        if len(final_tickers) == 1:
-            self.data = pd.DataFrame(data['Close'])
-            self.data.columns = final_tickers
-        else:
-            self.data = data['Close']
-            
-        # Rename columns to original tickers for consistency
-        column_mapping = dict(zip(final_tickers, self.tickers))
-        self.data = self.data.rename(columns=column_mapping)
-        self.data = self.data[self.tickers]  # <-- Ensure column order matches tickers
-        
-        # Clean data
-        self.data = self.data.dropna()
-        
-        if len(self.data) < 100:
-            raise ValueError("Insufficient data points returned. Try a wider date range or check ticker validity.")
-            
-        print(f"Successfully fetched data: {len(self.data)} trading days")
-        return True
-```
-
-### Portfolio Construction
-
-- **Weights:** All combinations where weights sum to 1 and each weight is between 0 and 1.
-- **Returns:** Annualized mean daily returns.
-- **Volatility:** Annualized standard deviation of daily returns.
-- **Covariance matrix:** Captures how returns move together, crucial for risk calculation.
+**Why this mix?**  
+Combining these assets allows us to study the trade-off between risk and return, diversification benefits, and how different sectors and asset classes interact in portfolio construction.
 
 ---
 
-## 3. How It Works (Python)
+## Data Collection
 
+We fetch daily closing prices for each ticker over ~10 years using the Yahoo Finance API in Python, `yfinance`. We use alternative tickers for international listings to ensure data coverage.
 
-### Data Collection
+---
 
-```{r}
-try:
-    import yfinance as yf
-except ImportError:
-    raise ImportError("yfinance is required to fetch real-world data. Please install it using: pip install yfinance")
+## Theoretical Backing: Modern Portfolio Theory & Markowitz
 
-warnings.filterwarnings('ignore')
+The experiment is grounded in **Modern Portfolio Theory (MPT)**, developed by Harry Markowitz in the 1950s. MPT provides a quantitative framework for constructing portfolios that optimize expected return for a given level of risk, or equivalently, minimize risk for a given level of expected return.
 
-class EfficientSurface3D:
-    def __init__(self, tickers, start_date=None, end_date=None):
-        """
-        Initialize the 3D Efficient Surface visualization
-        
-        Parameters:
-        tickers (list): List of ticker symbols
-        start_date (str): Start date for data retrieval (YYYY-MM-DD)
-        end_date (str): End date for data retrieval (YYYY-MM-DD)
-        """
-        self.tickers = tickers
-        self.start_date = start_date or (datetime.now() - timedelta(days=10*365)).strftime('%Y-%m-%d')
-        self.end_date = end_date or datetime.now().strftime('%Y-%m-%d')
-        self.data = None
-        self.returns = None
-        self.mean_returns = None
-        self.cov_matrix = None
-        
-    def fetch_data_yfinance(self):
-        """Fetch data using yfinance (with error handling)"""
-        print("Attempting to fetch data from Yahoo Finance...")
-        
-        # Try different ticker formats for international stocks
-        ticker_variants = {
-            'NVDA': ['NVDA'],
-            'VOO': ['VOO', 'VUAA.L', 'VUAA'],  # Try VOO first, then alternatives
-            'ARU': ['ARU.AX', 'ARU'],
-            'SGLN': ['SGLN.L', 'IAU', 'GLD']  # Try London listing, then alternatives
-        }
-        
-        final_tickers = []
-        for original_ticker in self.tickers:
-            success = False
-            for variant in ticker_variants.get(original_ticker, [original_ticker]):
-                try:
-                    test_data = yf.download(variant, start=self.start_date, end=self.end_date, progress=False)
-                    if not test_data.empty and len(test_data) > 100:  # Ensure we have sufficient data
-                        final_tickers.append(variant)
-                        print(f"  ✓ {original_ticker} -> {variant}: {len(test_data)} days")
-                        success = True
-                        break
-                except Exception:
-                    continue
-            
-            if not success:
-                raise ValueError(f"Could not fetch data for ticker {original_ticker}. Please check the ticker symbol or availability.")
-        
-        # Download all data at once
-        data = yf.download(final_tickers, start=self.start_date, end=self.end_date, progress=False)
-        
-        if len(final_tickers) == 1:
-            self.data = pd.DataFrame(data['Close'])
-            self.data.columns = final_tickers
-        else:
-            self.data = data['Close']
-            
-        # Rename columns to original tickers for consistency
-        column_mapping = dict(zip(final_tickers, self.tickers))
-        self.data = self.data.rename(columns=column_mapping)
-        self.data = self.data[self.tickers]  # <-- Ensure column order matches tickers
-        
-        # Clean data
-        self.data = self.data.dropna()
-        
-        if len(self.data) < 100:
-            raise ValueError("Insufficient data points returned. Try a wider date range or check ticker validity.")
-            
-        print(f"Successfully fetched data: {len(self.data)} trading days")
-        return True
-```
+**Key Concepts:**
+- **Diversification:** Reduces portfolio risk by mixing assets that are not perfectly correlated.
+- **Efficient Frontier:** The set of optimal portfolios offering the highest expected return for a defined level of risk.
+- **Risk (Volatility):** Measured as the standard deviation of portfolio returns.
+- **Return:** The expected annualized return of the portfolio.
+- **Covariance/Correlation:** Captures how asset returns move together; crucial for understanding diversification's impact.
 
-### 
+---
+
+## Mathematical Framework
+
+### 1. Portfolio Return
+
+$$
+E[R_p] = \sum_{i=1}^N w_i \cdot E[R_i]
+$$
+
+Where:
+- $w_i$ : Weight of asset $i$
+- $E[R_i]$ : Expected (annualized) return of asset $i$
+- $N$ : Number of assets
+
+### 2. Portfolio Risk (Volatility)
+
+$$
+\sigma_p = \sum_{i=1}^n \sum_{j=1}^n w_iw_jCov(R_i; R_j)
+= \sqrt{ \mathbf{w}^T \Sigma \mathbf{w} }
+$$
+
+Where:
+- $\mathbf{w}$ : Vector of asset weights
+- $\Sigma$ : Covariance matrix of asset returns
+
+### 3. Efficient Frontier
+
+For every target portfolio return, the efficient frontier identifies the portfolio with the lowest possible volatility. In higher dimensions (more assets), the efficient frontier becomes an *efficient surface*, visualized in 3D.
+
+---
+
+## Interpretation of Results
+
+### Asset Statistics
+
+| Asset | Annualized Return | Volatility |
+|-------|-------------------|------------|
+| NVDA  | 73.5%             | 50.5%      |
+| VOO   | 15.0%             | 18.6%      |
+| ARU   | 48.1%             | 82.8%      |
+| SGLN  | 14.0%             | 15.1%      |
+
+- **NVDA** provides the highest returns but is very volatile.
+- **VOO** and **SGLN** offer lower risk and more modest returns.
+- **ARU** is extremely volatile but has the potential for high returns.
+
+### Efficient Frontier and Surface
+
+- **Efficient Frontier (2D):** The curve shows the best achievable risk-return combinations. Most portfolios lie below the frontier, meaning they are suboptimal (either too risky for their return or too low-return for their risk).
+- **Efficient Surface (3D):** Illustrates how varying asset weights affects portfolio return and risk, revealing regions of high efficiency (high Sharpe ratio), low risk, and diversification benefits.
+
+### Optimal Portfolios
+
+- **Minimum Volatility Portfolio:** Heavy allocation to VOO and SGLN, almost no NVDA or ARU.  
+  _Return: ~14.8%, Volatility: ~11.1%, Sharpe: 1.34_
+- **Maximum Return Portfolio:** 100% NVDA.  
+  _Return: ~73.5%, Volatility: ~50.5%, Sharpe: 1.46_
+- **Maximum Sharpe Ratio Portfolio:** Blend of NVDA, ARU, and SGLN, optimizing risk-adjusted returns.  
+  _Return: ~33.3%, Volatility: ~17.8%, Sharpe: 1.87_
+- **Most Balanced Portfolio:** Almost equal weights, maximizing diversification.  
+  _Return: ~37.3%, Volatility: ~26.7%, Sharpe: 1.40_
+
+### Key Takeaways
+
+- **Diversification works:** Balanced portfolios can offer attractive returns with moderate risk.
+- **Risk-return trade-off:** Chasing high returns (e.g., all NVDA) comes with high volatility.
+- **Markowitz optimization:** Visualizations help identify portfolios that best match your risk tolerance and investment goals.
