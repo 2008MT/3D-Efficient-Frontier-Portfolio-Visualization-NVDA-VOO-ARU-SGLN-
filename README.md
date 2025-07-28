@@ -195,6 +195,8 @@ def find_optimal_portfolios(self):
 | **ARU** | 47.9% | 82.8% | 0.578 |
 | **SGLN** | 14.0% | 15.1% | 0.927 |
 
+---
+
 ### Portfolio Universe Generated: 
 22,090 valid portfolios from 125,000 combinations (17.7% efficiency)
 
@@ -202,9 +204,21 @@ def find_optimal_portfolios(self):
 - Volatility Range: 11.1% to 82.8%
 - Sharpe Range: 0.579 to 1.865
 
+---
+
 ### Risk Scaling Patterns
 
+| Risk Level | NVDA | VOO | ARU | SGLN | Return | Volatility | Sharpe |
+|------------|------|-----|-----|------|--------|------------|--------|
+| 10th %ile | 26.5% | 6.1% | 6.1% | 61.2% | 31.96% | 17.22% | 1.856 |
+| 30th %ile | 42.9% | 2.0% | 8.2% | 46.9% | 42.34% | 23.70% | 1.786 |
+| 50th %ile | 55.1% | 0.0% | 12.2% | 32.7% | 51.00% | 29.96% | 1.702 |
+| 70th %ile | 67.3% | 0.0% | 16.3% | 16.3% | 59.69% | 36.86% | 1.619 |
+| 90th %ile | 93.9% | 0.0% | 6.1% | 0.0% | 72.04% | 47.85% | 1.506 |
 
+**Pattern:** As risk tolerance increases, NVDA allocation grows while SGLN decreases, maintaining optimal risk-adjusted returns. We notice a relatively important decrease in sharpe ratio from the 50th %ile.
+
+---
 
 ### Data Visualisations Analysis
 
@@ -314,7 +328,9 @@ This unique perspective shows the risk-efficiency tradeoff:
 ### Risk Management Insight: 
 This plot is crucial for risk management, showing that accepting higher volatility doesn't necessarily improve risk-adjusted returns.
 
-### Key Findings
+---
+
+### Other Key Findings
 
 #### 1. **Optimal Portfolio Composition**
 
@@ -340,35 +356,6 @@ ARU consistently receives minimal allocations despite decent returns (47.9%) due
 - Poor risk-adjusted performance (Sharpe: 0.578)
 - Better alternatives available in both growth (NVDA) and defensive (SGLN) categories
 
-#### 4. **Risk Scaling Patterns**
-
-| Risk Level | NVDA | VOO | ARU | SGLN | Return | Volatility | Sharpe |
-|------------|------|-----|-----|------|--------|------------|--------|
-| 10th %ile | 26.5% | 6.1% | 6.1% | 61.2% | 31.96% | 17.22% | 1.856 |
-| 30th %ile | 42.9% | 2.0% | 8.2% | 46.9% | 42.34% | 23.70% | 1.786 |
-| 50th %ile | 55.1% | 0.0% | 12.2% | 32.7% | 51.00% | 29.96% | 1.702 |
-| 70th %ile | 67.3% | 0.0% | 16.3% | 16.3% | 59.69% | 36.86% | 1.619 |
-| 90th %ile | 93.9% | 0.0% | 6.1% | 0.0% | 72.04% | 47.85% | 1.506 |
-
-**Pattern:** As risk tolerance increases, NVDA allocation grows while SGLN decreases, maintaining optimal risk-adjusted returns.
-
-### Visualization Insights
-
-#### 3D Risk-Return-Sharpe Surface
-- Shows clear efficiency frontier in three dimensions
-- Reveals optimal region where Sharpe ratios exceed 1.5
-- Demonstrates non-linear relationship between risk and efficiency
-
-#### Asset Allocation Space
-- High Sharpe ratios (yellow regions) cluster in low-VOO, moderate-NVDA space
-- Confirms mathematical optimization results visually
-- Shows constraint boundaries clearly
-
-#### Dominant Asset Analysis
-- SGLN dominates low-risk region (defensive zone)
-- NVDA dominates high-risk region (growth zone)
-- VOO and ARU rarely achieve dominance (inefficient assets)
-
 ## 🛠️ Technical Implementation
 
 ### Requirements
@@ -387,13 +374,6 @@ cd portfolio-3d-analysis
 pip install -r requirements.txt
 python portfolio_analysis.py
 ```
-
-### Key Features
-- **Robust data fetching** with ticker fallbacks
-- **Efficient computation** using vectorized operations
-- **Multiple visualization modes** for comprehensive analysis
-- **Statistical validation** with portfolio metrics
-- **Export capabilities** for high-resolution plots
 
 ## 🔮 Future Enhancements
 
@@ -414,37 +394,3 @@ python portfolio_analysis.py
 - **Correlation heatmap integration**
 - **Drawdown analysis** in 3D space
 - **Sector allocation** overlays
-
-## 📈 Practical Applications
-
-This framework is valuable for:
-
-1. **Portfolio Managers:** Visualizing complex allocation decisions
-2. **Risk Managers:** Understanding multi-dimensional risk relationships
-3. **Financial Advisors:** Explaining optimization concepts to clients
-4. **Researchers:** Exploring MPT extensions and alternatives
-5. **Students:** Learning portfolio theory through interactive visualization
-
-## 📚 References
-
-1. Markowitz, H. (1952). "Portfolio Selection." *Journal of Finance*, 7(1), 77-91.
-2. Sharpe, W. F. (1966). "Mutual Fund Performance." *Journal of Business*, 39(1), 119-138.
-3. Bodie, Z., Kane, A., & Marcus, A. J. (2014). *Investments*. McGraw-Hill Education.
-4. Fabozzi, F. J., Gupta, F., & Markowitz, H. M. (2002). "The Legacy of Modern Portfolio Theory." *Journal of Investing*, 11(3), 7-22.
-
-## 📄 License
-
-MIT License - see LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions welcome! Please see CONTRIBUTING.md for guidelines.
-
----
-
-*This project demonstrates that effective portfolio visualization requires multiple complementary perspectives rather than forcing multi-dimensional data into a single 3D representation.*
-### Key Takeaways
-
-- **Diversification works:** Balanced portfolios can offer attractive returns with moderate risk.
-- **Risk-return trade-off:** Chasing high returns (e.g., all NVDA) comes with high volatility.
-- **Markowitz optimization:** Visualizations help identify portfolios that best match your risk tolerance and investment goals.
