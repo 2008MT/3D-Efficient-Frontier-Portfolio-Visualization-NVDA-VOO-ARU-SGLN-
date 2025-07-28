@@ -222,7 +222,7 @@ def find_optimal_portfolios(self):
 
 ### Data Visualisations Analysis
 
-### 1. Risk-Return-Sharpe 3D Relationship
+#### 1. Risk-Return-Sharpe 3D Relationship
 
 <img width="288" height="280" alt="Screenshot 2025-07-28 at 15 58 23" src="https://github.com/user-attachments/assets/7e4d7ca6-d58c-4b36-b4a0-7ba31ce0e5c3" />
 
@@ -233,17 +233,17 @@ This fundamental visualization maps the core Modern Portfolio Theory relationshi
 - Z-axis: Sharpe Ratio
 - Color: Sharpe Ratio intensity
 
-### Key Interpretations:
+#### Key Interpretations:
 
 - The curved surface represents the feasible portfolio space, showing how risk and return combine to produce different efficiency levels
 - Peak efficiency region (bright yellow/green) occurs at moderate risk levels (~17-30% volatility) with Sharpe ratios exceeding 1.6
 - Diminishing returns are clearly visible: beyond 40% volatility, Sharpe ratios decline despite higher returns
 - The 3D curvature reveals that the traditional 2D efficient frontier is actually a projection of this more complex surface
 
-### Curated Result Analysis:
+#### Curated Result Analysis:
 The optimal risk-return combination doesn't occur at maximum return but rather where the Sharpe ratio peaks, demonstrating the importance of risk-adjusted thinking.
 
-### 2. Asset Allocation Space
+#### 2. Asset Allocation Space
 
 <img width="293" height="277" alt="Screenshot 2025-07-28 at 17 39 39" src="https://github.com/user-attachments/assets/5de4d281-ceb8-433f-9914-b059c10d2aa8" />
 
@@ -254,17 +254,17 @@ This visualization maps portfolio weights in 3D space:
 - Z-axis: ARU Weight (0-100%)
 - Color: Sharpe Ratio (SGLN weight = 1 - others)
 
-### Key Interpretations:
+#### Key Interpretations:
 
 - High-efficiency zone (yellow region) concentrates in the low-VOO, moderate-NVDA space
 - The constraint surface forms a triangular shape due to the weight sum constraint
 - VOO-heavy allocations (high Y-axis) consistently show poor Sharpe ratios (purple/dark colors)
 - NVDA-ARU combinations without VOO dominate the efficient region
 
-### Curated Result Analysis:
+#### Curated Result Analysis:
 This confirms that VOO adds little value to this particular asset mix, being crowded out by more efficient combinations of growth (NVDA) and defensive (SGLN) assets.
 
-### 3. Risk-Return by Dominant Asset
+#### 3. Risk-Return by Dominant Asset
 
 <img width="409" height="311" alt="Screenshot 2025-07-28 at 17 44 01" src="https://github.com/user-attachments/assets/3dec7497-dc55-46c1-a7d8-ab59645405ee" />
 
@@ -276,7 +276,7 @@ Same axes as Plot 1 but colored by dominant holding
 - Green: ARU-dominant portfolios
 - Gold: SGLN-dominant portfolios
 
-### Key Interpretations:
+#### Key Interpretations:
 
 - SGLN dominance (gold) clusters in the low-risk, moderate-return region (defensive zone)
 - NVDA dominance (red) occupies the high-risk, very-high-return space (growth zone)
@@ -284,10 +284,10 @@ Same axes as Plot 1 but colored by dominant holding
 - VOO (blue) barely appears in this mix, surprising as it is usually considered as an important diversifier
 - Clear bifurcation between defensive (SGLN) and growth (NVDA) strategies
 
-### Curated Result Analysis:
+#### Curated Result Analysis:
 The optimal approach is a "barbell strategy" - combine defensive assets (SGLN) for stability with high-growth assets (NVDA) for returns, avoiding the "middle ground" (VOO) assets.
 
-### 4. Enhanced Efficient Frontier
+#### 4. Enhanced Efficient Frontier
 
 <img width="445" height="370" alt="Screenshot 2025-07-28 at 17 53 12" src="https://github.com/user-attachments/assets/31cf37b2-89e7-4f69-9d83-ba84c1e00eb3" />
 
@@ -297,17 +297,17 @@ The traditional 2D efficient frontier enhanced with mathematical rigor:
 - Red line: Mathematically derived efficient frontier (upper envelope)
 - Color gradient: Sharpe ratio from low (purple) to high (yellow)
 
-### Key Interpretations:
+#### Key Interpretations:
 
 - Classic hyperbolic shape confirms theoretical expectations
 - Efficient frontier clearly separates optimal from suboptimal portfolios
 - High Sharpe region (yellow/green) forms a narrow band along the frontier
 - Dominated portfolios (purple region) show inferior risk-return combinations
 
-### Validation: 
+#### Validation: 
 This plot validates our 3D analysis by showing the traditional efficient frontier, confirming that our multi-dimensional approach captures the same mathematical relationships.
 
-### 5. Risk vs Sharpe Ratio Analysis
+#### 5. Risk vs Sharpe Ratio Analysis
 
 <img width="418" height="358" alt="Screenshot 2025-07-28 at 17 55 17" src="https://github.com/user-attachments/assets/c2bd7344-2c0e-47f8-8870-949a91c85d1a" />
 
@@ -318,14 +318,14 @@ This unique perspective shows the risk-efficiency tradeoff:
 - Color: Portfolio Return
 - Red star: Maximum Sharpe ratio portfolio
 
-### Key Interpretations:
+#### Key Interpretations:
 
 - Inverted relationship: Higher risk generally leads to lower Sharpe ratios beyond the optimal point
 - Sweet spot at ~17-18% volatility where Sharpe ratio peaks at 1.865
 - Return gradient (color) shows that moderate-return portfolios can be more efficient than high-return ones
 - Sharp decline in efficiency beyond 30% volatility
 
-### Risk Management Insight: 
+#### Risk Management Insight: 
 This plot is crucial for risk management, showing that accepting higher volatility doesn't necessarily improve risk-adjusted returns.
 
 ---
