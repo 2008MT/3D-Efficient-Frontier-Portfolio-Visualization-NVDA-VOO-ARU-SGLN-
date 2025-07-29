@@ -224,7 +224,7 @@ def find_optimal_portfolios(self):
 
 #### 1. Risk-Return-Sharpe 3D Relationship
 
-<img width="288" height="280" alt="Screenshot 2025-07-28 at 15 58 23" src="https://github.com/user-attachments/assets/7e4d7ca6-d58c-4b36-b4a0-7ba31ce0e5c3" />
+<img width="280" height="243" alt="Screenshot 2025-07-29 at 10 27 43" src="https://github.com/user-attachments/assets/1423ea2e-56b5-4bca-bdf0-8999bdbcd02e" />
 
 This fundamental visualization maps the core Modern Portfolio Theory relationship in three dimensions:
 
@@ -245,7 +245,7 @@ The optimal risk-return combination doesn't occur at maximum return but rather w
 
 #### 2. Asset Allocation Space
 
-<img width="293" height="277" alt="Screenshot 2025-07-28 at 17 39 39" src="https://github.com/user-attachments/assets/5de4d281-ceb8-433f-9914-b059c10d2aa8" />
+<img width="268" height="230" alt="Screenshot 2025-07-29 at 10 28 05" src="https://github.com/user-attachments/assets/69074523-21e2-4575-a74e-410fcfb00b6c" />
 
 This visualization maps portfolio weights in 3D space:
 
