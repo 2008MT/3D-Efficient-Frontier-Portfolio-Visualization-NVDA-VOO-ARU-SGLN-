@@ -114,7 +114,7 @@ class EfficientSurface3D:
         ax1.set_ylabel('Portfolio Return')
         ax1.set_zlabel('Sharpe Ratio')
         ax1.set_title('Risk-Return-Sharpe\n3D Relationship')
-        plt.colorbar(scatter, ax=ax1, shrink=0.5, label='Sharpe Ratio')
+        cbar1 = plt.colorbar(scatter, ax=ax1, shrink=0.5, pad=0.15, label='Sharpe Ratio')
         
         # Plot 2: Weight composition with Sharpe coloring
         ax2 = fig.add_subplot(132, projection='3d')
@@ -124,7 +124,7 @@ class EfficientSurface3D:
         ax2.set_ylabel('VOO Weight')
         ax2.set_zlabel('ARU Weight')
         ax2.set_title('Asset Allocation Space\n(Color = Sharpe Ratio)')
-        plt.colorbar(scatter2, ax=ax2, shrink=0.5, label='Sharpe Ratio')
+        cbar2 = plt.colorbar(scatter2, ax=ax2, shrink=0.5, pad=0.15, label='Sharpe Ratio')
         
         # Plot 3: Risk-Return surface colored by dominant asset
         ax3 = fig.add_subplot(133, projection='3d')
