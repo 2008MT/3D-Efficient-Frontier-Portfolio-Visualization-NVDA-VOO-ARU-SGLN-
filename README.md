@@ -73,7 +73,7 @@ With 4 assets, we have a 4-dimensional optimization space constrained to a 3-dim
 Our portfolio consists of four strategically selected assets:
 
 - **Nvidia (NVDA):** A leading technology company in AI and semiconductors, offering high growth potential and significant volatility. NVDA is chosen for its representation of innovation and tech sector exposure.
-- **S&P 500 Vanguard ETF (VOO/VUAA):** This ETF tracks the S&P 500 index, providing broad exposure to the US equity market with relatively lower volatility. It supplies stability and diversification.
+- **S&P 500 Vanguard ETF (VOO):** This ETF tracks the S&P 500 index, providing broad exposure to the US equity market with relatively lower volatility. It supplies stability and diversification.
 - **Arafura Rare Earths Ltd (ARU):** An Australian mining company focused on rare earths, ARU adds sector-specific risk and the potential for outsized returns due to its exposure to critical minerals needed for renewable energy and tech.
 - **iShares Physical Gold ETF (SGLN):** Gold is a classic defensive asset. SGLN brings stability and acts as a hedge against market downturns, with typically low correlation to equities.
 
