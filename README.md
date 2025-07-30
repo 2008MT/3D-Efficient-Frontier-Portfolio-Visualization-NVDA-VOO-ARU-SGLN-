@@ -68,6 +68,8 @@ With 4 assets, we have a 4-dimensional optimization space constrained to a 3-dim
 
 ## Methodology
 
+**We fetch data for the last 10 years (mid 2015-2025) using `yFinance`.**
+
 ### Asset Selection Strategy
 
 Our portfolio consists of four strategically selected assets:
@@ -188,6 +190,8 @@ def find_optimal_portfolios(self):
 
 ## Results and Analysis
 
+**We get data for 2435 trading days, or a time period spanning from late November or early December 2015 to late July 2025.**
+
 ### Asset Performance Statistics (Annualized)
 
 | Asset | Expected Return | Volatility | Sharpe Ratio |
@@ -200,7 +204,7 @@ def find_optimal_portfolios(self):
 ---
 
 ### Portfolio Universe Generated: 
-22,090 valid portfolios from 125,000 combinations (17.7% efficiency)
+22,090 valid portfolios from 125,000 (`n_points=50`, 50³)combinations (17.7% efficiency)
 
 - Return Range: 14.0% to 73.6%
 - Volatility Range: 11.1% to 82.8%
@@ -366,7 +370,7 @@ The analysis reveals counterintuitive findings challenging conventional portfoli
 
 Each visualization reveals distinct insights. The 3D Risk-Return-Sharpe surface shows maximum Sharpe ratios occur at moderate risk levels (~18% volatility) rather than return extremes. Asset allocation weight space demonstrates that optimal combinations cluster in specific regions, avoiding balanced allocations in favor of concentrated positions. The dominant asset analysis shows clear bifurcation between growth-dominated and defensive-dominated strategies.
 
-The methodology generates 22,090 valid portfolio combinations from 125,000 possible allocations with 17.7% computational efficiency using Python's scientific computing ecosystem. Strategic asset selection included NVDA (high-growth technology), VOO (broad market), ARU (commodity volatility), and SGLN (defensive positioning). Surprisingly, SGLN's heavy weighting (up to 65.3%) in optimal portfolios reveals the critical importance of low-correlation assets, while ARU's minimal allocation despite attractive returns demonstrates how extreme volatility can make assets inefficient.
+The methodology generates 22,090 valid portfolio combinations from 125,000 possible allocations with 17.7% computational efficiency using Python. Strategic asset selection included NVDA (high-growth technology), VOO (broad market), ARU (commodity volatility), and SGLN (defensive positioning). Surprisingly, SGLN's heavy weighting (up to 65.3%) in optimal portfolios reveals the critical importance of low-correlation assets, while ARU's minimal allocation despite attractive returns demonstrates how extreme volatility can make assets inefficient.
 
 This analysis provides empirical validation of Markowitz's framework while extending practical application through visualization. The findings suggest concentrated positions in complementary assets may outperform traditional balanced approaches. The emergence of the "barbell" strategy—combining high-growth technology exposure with defensive gold positioning while avoiding broad market exposure—represents an important finding reflecting the evolving nature of optimal portfolio construction in contemporary markets.
 
