@@ -1,5 +1,7 @@
 # 3D Portfolio Optimization and Efficient Surface Analysis
 
+Hi! I'm Mael, a 17-year-old incoming high school senior from the South of France, passionate about finance, quantitative analysis, investing, and the intersection of technology and markets. I intend to pursue studies and a career in hedge funds in the United States. My experiences include a work experience placement at Morgan Stanley, a two-week research placement at the University of Montpellier exploring quantitative and computational finance tools, co-founding and hosting two podcasts, award-winning public speaking and debate achievements, and being an ardent golfer. This coding project represents my exploration into quantitative finance using Python—as I continue learning programming, I want to be transparent that I utilized AI tools including Claude, GitHub Copilot, and ChatGPT to assist in development, helping accelerate my learning while I build coding fundamentals.
+
 ## Purpose and Motivation
 
 This project demonstrates advanced 3D visualization techniques for Modern Portfolio Theory (MPT) optimization, addressing a common problem in portfolio analysis: **how to meaningfully visualize multi-dimensional portfolio optimization in 3D space**.
@@ -355,25 +357,6 @@ ARU consistently receives minimal allocations despite decent returns (47.9%) due
 - Extremely high volatility (82.8%)
 - Poor risk-adjusted performance (Sharpe: 0.578)
 - Better alternatives available in both growth (NVDA) and defensive (SGLN) categories
-
-## 🛠️ Technical Implementation
-
-### Requirements
-```python
-numpy>=1.21.0
-pandas>=1.3.0
-matplotlib>=3.4.0
-yfinance>=0.1.70
-scipy>=1.7.0
-```
-
-### Installation and Usage
-```bash
-git clone https://github.com/yourusername/portfolio-3d-analysis
-cd portfolio-3d-analysis
-pip install -r requirements.txt
-python portfolio_analysis.py
-```
 
 ## Conclusion
 
