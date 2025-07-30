@@ -360,8 +360,6 @@ ARU consistently receives minimal allocations despite decent returns (47.9%) due
 
 ## Conclusion
 
-# Shortened 3D Portfolio Optimization Analysis
-
 This 3D portfolio optimization analysis addresses the challenges of visualizing multi-dimensional Modern Portfolio Theory relationships, revealing that effective 4+ asset portfolio visualization requires multiple complementary perspectives rather than single 3D representation. The solution creates visualizations highlighting different optimization aspects: risk-return-Sharpe relationships, asset allocation patterns, dominant asset analysis, and enhanced 2D projections.
 
 The analysis reveals counterintuitive findings challenging conventional portfolio wisdom. Despite being a broad market ETF, VOO receives zero allocation in optimal portfolios because SGLN provides superior diversification benefits while NVDA offers better risk-adjusted growth exposure. The optimization consistently produces a "barbell" strategy combining high-growth exposure (NVDA) with defensive positioning (SGLN), while minimizing allocation to low-Sharpe assets (VOO, ARU). This suggests that concentrated exposure to complementary extremes may be more efficient than traditional diversification.
