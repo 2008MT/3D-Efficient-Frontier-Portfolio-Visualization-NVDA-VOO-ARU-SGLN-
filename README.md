@@ -32,7 +32,7 @@ Where:
 - $E[R_i]$ : Expected (annualized) return of asset $i$
 - $N$ : Number of assets
 
-**2. Portfolio Variance (Risk):**
+**2. Portfolio Standard Deviation (Risk):**
 
 $$
 \sigma_p = \sqrt{ \sum_{i=1}^n \sum_{j=1}^n w_iw_jCov(R_i; R_j) }
